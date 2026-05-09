@@ -187,7 +187,7 @@ body.model-open .page {
 }
 
 .model-overlay__viewer {
-    width: 100vw;
+    width: min(46vw, 820px);
     height: 100vh;
     background: transparent;
     outline: none;
@@ -207,5 +207,9 @@ body.model-open .page {
 @media (max-width: 768px) {
     .hero-video {
         height: 100vh;
+    }
+
+    .model-overlay__viewer {
+        width: 82vw;
     }
 }
