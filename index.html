@@ -240,10 +240,42 @@
 
 				const modelOverlay = document.querySelector('.model-overlay');
 				const modelViewer = document.querySelector('.model-overlay__viewer');
+				let lastZoomPoint = null;
+				let zoomTargetFrame = null;
+
+				function setZoomTargetToCursor(event) {
+					if (!modelOverlay || !modelViewer || !modelOverlay.classList.contains('is-open')) return;
+					if (typeof modelViewer.positionAndNormalFromPoint !== 'function') return;
+
+					const hit = modelViewer.positionAndNormalFromPoint(event.clientX, event.clientY);
+					if (!hit || !hit.position) return;
+
+					lastZoomPoint = hit.position;
+
+					if (zoomTargetFrame) return;
+
+					zoomTargetFrame = requestAnimationFrame(function () {
+						zoomTargetFrame = null;
+						if (!lastZoomPoint) return;
+
+						const x = Number(lastZoomPoint.x).toFixed(4);
+						const y = Number(lastZoomPoint.y).toFixed(4);
+						const z = Number(lastZoomPoint.z).toFixed(4);
+
+						modelViewer.setAttribute('camera-target', `${x}m ${y}m ${z}m`);
+					});
+				}
+
+				function resetModelCameraTarget() {
+					if (!modelViewer) return;
+					lastZoomPoint = null;
+					modelViewer.removeAttribute('camera-target');
+				}
 
 				function openModel(modelPath) {
 					if (!modelOverlay || !modelViewer || !modelPath) return;
 
+					resetModelCameraTarget();
 					modelViewer.setAttribute('src', modelPath);
 					modelOverlay.classList.add('is-open');
 					modelOverlay.setAttribute('aria-hidden', 'false');
@@ -257,6 +289,11 @@
 					modelOverlay.setAttribute('aria-hidden', 'true');
 					document.body.classList.remove('model-open');
 					modelViewer.removeAttribute('src');
+					resetModelCameraTarget();
+				}
+
+				if (modelViewer) {
+					modelViewer.addEventListener('wheel', setZoomTargetToCursor, { passive: true });
 				}
 
 				if (modelOverlay) {
