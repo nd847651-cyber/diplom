@@ -242,9 +242,53 @@
 				const modelViewer = document.querySelector('.model-overlay__viewer');
 				let lastZoomPoint = null;
 				let zoomTargetFrame = null;
+				let modelIdleTimer = null;
+				const MODEL_IDLE_RESET_DELAY = 5000;
+				const initialCameraOrbit = modelViewer ? modelViewer.getAttribute('camera-orbit') : null;
+				const initialCameraTarget = modelViewer ? modelViewer.getAttribute('camera-target') : null;
+				const initialFieldOfView = modelViewer ? modelViewer.getAttribute('field-of-view') : null;
+
+				function restoreModelAttribute(name, value) {
+					if (!modelViewer) return;
+					if (value === null || value === undefined) {
+						modelViewer.removeAttribute(name);
+					} else {
+						modelViewer.setAttribute(name, value);
+					}
+				}
+
+				function resetModelCameraTarget() {
+					if (!modelViewer) return;
+					lastZoomPoint = null;
+					restoreModelAttribute('camera-target', initialCameraTarget);
+				}
+
+				function resetModelView() {
+					if (!modelViewer || !modelOverlay || !modelOverlay.classList.contains('is-open')) return;
+
+					lastZoomPoint = null;
+					restoreModelAttribute('camera-target', initialCameraTarget);
+					restoreModelAttribute('camera-orbit', initialCameraOrbit);
+					restoreModelAttribute('field-of-view', initialFieldOfView);
+
+					if (typeof modelViewer.resetTurntableRotation === 'function') {
+						modelViewer.resetTurntableRotation();
+					}
+
+					if (typeof modelViewer.jumpCameraToGoal === 'function') {
+						modelViewer.jumpCameraToGoal();
+					}
+				}
+
+				function scheduleModelIdleReset() {
+					if (!modelOverlay || !modelOverlay.classList.contains('is-open')) return;
+					clearTimeout(modelIdleTimer);
+					modelIdleTimer = setTimeout(resetModelView, MODEL_IDLE_RESET_DELAY);
+				}
 
 				function setZoomTargetToCursor(event) {
 					if (!modelOverlay || !modelViewer || !modelOverlay.classList.contains('is-open')) return;
+					scheduleModelIdleReset();
 					if (typeof modelViewer.positionAndNormalFromPoint !== 'function') return;
 
 					const hit = modelViewer.positionAndNormalFromPoint(event.clientX, event.clientY);
@@ -266,25 +310,22 @@
 					});
 				}
 
-				function resetModelCameraTarget() {
-					if (!modelViewer) return;
-					lastZoomPoint = null;
-					modelViewer.removeAttribute('camera-target');
-				}
-
 				function openModel(modelPath) {
 					if (!modelOverlay || !modelViewer || !modelPath) return;
 
+					clearTimeout(modelIdleTimer);
 					resetModelCameraTarget();
 					modelViewer.setAttribute('src', modelPath);
 					modelOverlay.classList.add('is-open');
 					modelOverlay.setAttribute('aria-hidden', 'false');
 					document.body.classList.add('model-open');
+					scheduleModelIdleReset();
 				}
 
 				function closeModel() {
 					if (!modelOverlay || !modelViewer) return;
 
+					clearTimeout(modelIdleTimer);
 					modelOverlay.classList.remove('is-open');
 					modelOverlay.setAttribute('aria-hidden', 'true');
 					document.body.classList.remove('model-open');
@@ -293,6 +334,10 @@
 				}
 
 				if (modelViewer) {
+					['wheel', 'pointerdown', 'pointermove', 'touchstart', 'touchmove', 'mousedown', 'mousemove'].forEach(function (eventName) {
+						modelViewer.addEventListener(eventName, scheduleModelIdleReset, { passive: true });
+					});
+
 					modelViewer.addEventListener('wheel', setZoomTargetToCursor, { passive: true });
 				}
 

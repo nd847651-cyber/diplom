@@ -187,17 +187,20 @@ body.model-open .page {
 }
 
 .model-overlay__viewer {
-    width: min(80vw, 960px);
-    height: min(80vh, 760px);
+    width: 100vw;
+    height: 100vh;
     background: transparent;
     outline: none;
+    border: 0;
+    box-shadow: none;
+    overflow: hidden;
+    --poster-color: transparent;
+    --progress-bar-color: transparent;
+    --progress-mask: transparent;
 }
 
-@media (max-width: 768px) {
-    .model-overlay__viewer {
-        width: 92vw;
-        height: 72vh;
-    }
+.model-overlay__viewer::part(default-progress-bar) {
+    display: none;
 }
 
 /* Media Queries for responsive design */
