@@ -1,0 +1,124 @@
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>CART</title>
+		<link rel="stylesheet" href="css/style3.css">
+		<link rel="stylesheet" href="css/header-footer.css">
+</head>
+	
+	<body>
+
+		<div class="header">
+				<div class="header__section">
+					<div class="header__item headerButton"><a href="history.html">история</a></div>
+					<div class="header__item headerButton"><a href="reg.html">профиль</a></div>
+					<div class="header__item header__logo">
+						<a href="index.html"><img src="image/logo.png" alt="Логотип" class="logo"></a>
+					</div>
+					<div class="header__item headerButton">
+						<form action="search_results.html" method="get">
+							<input type="text" name="query" placeholder="поиск" class="search-input">
+						</form>
+					</div>
+					<div class="header__item headerButton"><a href="cart.html">корзина</a></div>
+				</div>
+			</div>
+			<div class="main">
+		
+			<div class="main__header">
+		
+				<h1>корзина</h1>
+			
+			</div>
+			
+			<div class="main__button">
+			
+				<p><span class="popup-trigger">оплатить заказ</span></p>
+			
+			</div>
+			
+			<div class="container">
+				<div class="switch">
+					<input type="radio" name="slider" id="cart1" checked>
+					<input type="radio" name="slider" id="cart2">
+
+					<div class="controls">
+						<label for="cart1"></label>
+						<label for="cart2"></label>
+					</div>
+
+					<div class="wrapper">
+						<div class="box">
+							<img src="image/cart1.png" alt="cart1">
+						</div>
+						<div class="box">
+							<img src="image/cart2.png" alt="cart2">
+						</div>
+					</div>
+				</div>	
+			</div>
+			
+		</div>
+		
+		<div id="popupOverlay">
+			<div id="popup">
+				<a href="#" id="popupClose">×</a>
+					<form id="orderForm">
+						<div class="popupInput">
+							<input type="text" name="address" placeholder="адрес" required>
+							<input type="email" name="email" placeholder="почта" required>
+						</div>
+						<button type="submit" id="popupNew">отправить</button>
+					</form>
+
+				<div class="popup-footer">
+					Вся информация поступит вам на почту.<br>Оплата осуществляется по TRC20
+				</div>
+
+				<div class="vertical-text">
+					TTP6187xqhs2UIDNsmQkWMPoe9TWKphAED
+				</div>
+			</div>
+		</div>
+		
+		
+		
+		<div class="footer">
+				<div class="footer__section">
+					<div class="footer__item"><a href="contact.html">контакты</a></div>
+					<div class="footer__item"><a href="news.html">новости</a></div>
+					<div class="footer__item"><p></p></div>
+					<div class="footer__item"><p></p></div>
+					<div class="footer__item"><p>&copy; 2024 BYNIKITADENISOV︱RIGHTS RESERVED</p></div>
+				</div>
+			</div>
+<script>
+		const popupTrigger = document.querySelector('.popup-trigger');
+		const popupOverlay = document.getElementById('popupOverlay');
+		const popupClose = document.getElementById('popupClose');
+		const orderForm = document.getElementById('orderForm');
+
+		popupTrigger.addEventListener('click', () => {
+			popupOverlay.style.display = 'flex';
+		});
+
+		popupClose.addEventListener('click', (event) => {
+			event.preventDefault();
+			popupOverlay.style.display = 'none';
+		});
+			orderForm.addEventListener('submit', (event) => {
+				event.preventDefault();
+				popupOverlay.style.display = 'none';
+			});
+
+		popupOverlay.addEventListener('click', (event) => {
+			if (event.target === popupOverlay) {
+				popupOverlay.style.display = 'none';
+			}
+		});
+	</script>
+	
+	</body>
+</html>

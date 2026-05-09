@@ -1,0 +1,278 @@
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>BYNIKITADENISOV</title>
+		<link rel="stylesheet" href="css/style.css">
+		<link rel="stylesheet" href="css/header-footer.css">
+		<script type="module" src="https://unpkg.com/@google/model-viewer/dist/model-viewer.min.js"></script>
+</head>
+	<body class="home-page">
+		
+		<div class="page">
+		
+			<div class="header">
+				<div class="header__section">
+					<div class="header__item headerButton"><a href="history.html">история</a></div>
+					<div class="header__item headerButton"><a href="reg.html">профиль</a></div>
+					<div class="header__item header__logo">
+						<a href="index.html"><img src="image/logo.png" alt="Логотип" class="logo"></a>
+					</div>
+					<div class="header__item headerButton">
+						<form action="search_results.html" method="get">
+							<input type="text" name="query" placeholder="поиск" class="search-input">
+						</form>
+					</div>
+					<div class="header__item headerButton"><a href="cart.html">корзина</a></div>
+				</div>
+			</div>
+			<section class="hero-video">
+				<video class="hero-video__media" autoplay muted loop playsinline>
+					<source src="video.mp4" type="video/mp4">
+					Ваш браузер не поддерживает видео.
+				</video>
+			</section>
+
+			<section class="product-slider" aria-label="Галерея товаров">
+				<div class="image-container product-slider__track">
+					<div class="image image--static image--model" data-model="3D/1.glb">
+						<img src="image/coming_soon1.png" alt="Открыть 3D модель 1" class="default">
+					</div>
+					
+					<div class="image image--static image--model" data-model="3D/2.glb">
+						<img src="image/coming_soon2.png" alt="Открыть 3D модель 2" class="default">
+					</div>
+					
+					<div class="image image--static image--model" data-model="3D/3.glb">
+						<img src="image/coming_soon3.png" alt="Открыть 3D модель 3" class="default">
+					</div>
+					
+					<div class="image image--static image--model" data-model="3D/4.glb">
+						<img src="image/coming_soon4.png" alt="Открыть 3D модель 4" class="default">
+					</div>
+					
+					<div class="image image--focus-top">
+						<img src="image/img1.png" alt="img1" class="default">
+						<img src="image/new_img1.png" alt="new_img1" class="hover">
+					</div>
+					
+					<div class="image">
+						<img src="image/img2.png" alt="img2" class="default">
+						<img src="image/new_img2.png" alt="new_img2" class="hover">
+					</div>
+					
+					<div class="image">
+						<img src="image/img3.png" alt="img3" class="default">
+						<img src="image/new_img3.png" alt="new_img3" class="hover">
+					</div>
+					
+					<div class="image">
+						<img src="image/img4.png" alt="img4" class="default">
+						<img src="image/new_img4.png" alt="new_img4" class="hover">
+					</div>
+				</div>
+			</section>
+			
+			<section class="interior-gallery" aria-label="Интерьеры галерей">
+				<div class="interior-gallery__block interior-gallery__block--spb">
+					<img src="image/image8.png" alt="Интерьер галереи в Санкт-Петербурге" class="image8">
+					<p class="interior-gallery__text interior-gallery__text--spb">ИНТЕРЬЕР ГАЛЕРЕЯ︱Санкт-Петербург<br>Невский проспект︱39Б<br>Т +7 900 000 00 01<br>SAINTP@BYNIKITADENISOV.com</p>
+				</div>
+
+				<div class="interior-gallery__block interior-gallery__block--moscow">
+					<img src="image/image9.png" alt="Интерьер галереи в Москве" class="image9">
+					<p class="interior-gallery__text interior-gallery__text--moscow">ИНТЕРЬЕР ГАЛЕРЕЯ︱Москва<br>Кузнецкий Мост︱24<br>Т +7 900 000 00 02<br>MOSCOW@BYNIKITADENISOV.com</p>
+				</div>
+			</section>
+			
+			<div class="footer">
+				<div class="footer__section">
+					<div class="footer__item"><a href="contact.html">контакты</a></div>
+					<div class="footer__item"><a href="news.html">новости</a></div>
+					<div class="footer__item"><p></p></div>
+					<div class="footer__item"><p></p></div>
+					<div class="footer__item"><p>&copy; 2024 BYNIKITADENISOV︱RIGHTS RESERVED</p></div>
+				</div>
+			</div>
+</div>
+
+		<div class="model-overlay" aria-hidden="true">
+			<model-viewer class="model-overlay__viewer" src="" camera-controls auto-rotate interaction-prompt="none" ar ar-modes="webxr scene-viewer quick-look"></model-viewer>
+		</div>
+		
+		<script>
+			document.addEventListener('DOMContentLoaded', function () {
+				const header = document.querySelector('.header');
+				const heroVideo = document.querySelector('.hero-video');
+				const headerItems = document.querySelectorAll('.header .header__item');
+
+				function updateHeaderState() {
+					if (!header || !heroVideo) return;
+
+					const heroBottom = heroVideo.getBoundingClientRect().bottom;
+					const headerBottom = header.getBoundingClientRect().bottom;
+
+					// Белая подложка и чёрная линия появляются, когда хедер уже вышел ниже видеоблока.
+					header.classList.toggle('header--solid', heroBottom <= headerBottom);
+
+					headerItems.forEach(function (item) {
+						const itemRect = item.getBoundingClientRect();
+						const itemCenter = itemRect.top + itemRect.height / 2;
+						const isOverVideo = itemCenter < heroBottom;
+
+						item.classList.toggle('is-over-video', isOverVideo);
+						item.classList.toggle('is-below-video', !isOverVideo);
+					});
+				}
+
+				updateHeaderState();
+				window.addEventListener('scroll', updateHeaderState);
+				window.addEventListener('resize', updateHeaderState);
+
+				const slider = document.querySelector('.product-slider');
+				const track = document.querySelector('.product-slider__track');
+
+				if (slider && track) {
+					const originalSlides = Array.from(track.children);
+					let originalWidth = 0;
+					let isDown = false;
+					let startX = 0;
+					let scrollLeft = 0;
+					let dragDistance = 0;
+
+					function cloneSlides() {
+						const before = document.createDocumentFragment();
+						const after = document.createDocumentFragment();
+
+						originalSlides.forEach(function (slide) {
+							before.appendChild(slide.cloneNode(true));
+						});
+
+						originalSlides.forEach(function (slide) {
+							after.appendChild(slide.cloneNode(true));
+						});
+
+						track.insertBefore(before, track.firstChild);
+						track.appendChild(after);
+					}
+
+					function measureOriginalWidth() {
+						originalWidth = originalSlides.reduce(function (sum, slide) {
+							return sum + slide.offsetWidth;
+						}, 0);
+					}
+
+					function normalizeLoopPosition() {
+						if (!originalWidth) return;
+
+						if (slider.scrollLeft < originalWidth * 0.5) {
+							slider.scrollLeft += originalWidth;
+						} else if (slider.scrollLeft > originalWidth * 1.5) {
+							slider.scrollLeft -= originalWidth;
+						}
+					}
+
+					function initInfiniteSlider() {
+						cloneSlides();
+						measureOriginalWidth();
+						slider.scrollLeft = originalWidth;
+					}
+
+					initInfiniteSlider();
+
+					window.addEventListener('resize', function () {
+						measureOriginalWidth();
+						slider.scrollLeft = originalWidth;
+					});
+
+					slider.addEventListener('wheel', function (event) {
+						if (originalWidth <= 0) return;
+						event.preventDefault();
+
+						const rawDelta = Math.abs(event.deltaX) > Math.abs(event.deltaY) ? event.deltaX : event.deltaY;
+						const delta = rawDelta * 5.4;
+
+						slider.scrollLeft += delta;
+						normalizeLoopPosition();
+					}, { passive: false });
+
+					slider.addEventListener('scroll', normalizeLoopPosition);
+
+					slider.addEventListener('mousedown', function (event) {
+						isDown = true;
+						dragDistance = 0;
+						slider.classList.add('is-dragging');
+						startX = event.pageX - slider.offsetLeft;
+						scrollLeft = slider.scrollLeft;
+					});
+
+					slider.addEventListener('mouseleave', function () {
+						isDown = false;
+						slider.classList.remove('is-dragging');
+					});
+
+					slider.addEventListener('mouseup', function () {
+						isDown = false;
+						slider.classList.remove('is-dragging');
+					});
+
+					slider.addEventListener('mousemove', function (event) {
+						if (!isDown) return;
+						event.preventDefault();
+
+						const x = event.pageX - slider.offsetLeft;
+						const walk = (x - startX) * 1.7;
+						dragDistance = Math.max(dragDistance, Math.abs(walk));
+						slider.scrollLeft = scrollLeft - walk;
+						normalizeLoopPosition();
+					});
+
+					slider.addEventListener('click', function (event) {
+						if (dragDistance > 8) return;
+
+						const modelCard = event.target.closest('.image--model[data-model]');
+						if (!modelCard) return;
+
+						openModel(modelCard.dataset.model);
+					});
+				}
+
+				const modelOverlay = document.querySelector('.model-overlay');
+				const modelViewer = document.querySelector('.model-overlay__viewer');
+
+				function openModel(modelPath) {
+					if (!modelOverlay || !modelViewer || !modelPath) return;
+
+					modelViewer.setAttribute('src', modelPath);
+					modelOverlay.classList.add('is-open');
+					modelOverlay.setAttribute('aria-hidden', 'false');
+					document.body.classList.add('model-open');
+				}
+
+				function closeModel() {
+					if (!modelOverlay || !modelViewer) return;
+
+					modelOverlay.classList.remove('is-open');
+					modelOverlay.setAttribute('aria-hidden', 'true');
+					document.body.classList.remove('model-open');
+					modelViewer.removeAttribute('src');
+				}
+
+				if (modelOverlay) {
+					modelOverlay.addEventListener('click', function (event) {
+						if (event.target === modelOverlay) {
+							closeModel();
+						}
+					});
+				}
+
+				document.addEventListener('keydown', function (event) {
+					if (event.key === 'Escape') closeModel();
+				});
+
+			});
+		</script>
+	</body>
+	
+</html>

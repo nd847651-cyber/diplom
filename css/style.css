@@ -1,0 +1,208 @@
+body {
+    font-family: 'Helvetica', Arial, sans-serif;
+    background-color: white;
+    margin: 0;
+    padding: 0;
+}
+
+a {
+    color: black;
+    text-decoration: none;
+	font-family: 'Helvetica', Arial, sans-serif;
+}
+
+.page {
+    overflow: hidden;
+    display: flex;
+    flex-direction: column;
+    min-height: 100vh;
+}
+.hero-video {
+    width: 100%;
+    height: 100vh;
+    min-height: 100vh;
+    overflow: hidden;
+    position: relative;
+}
+
+.hero-video__media {
+    display: block;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+.product-slider {
+    width: 100%;
+    margin-top: 70px;
+    overflow-x: auto;
+    overflow-y: hidden;
+    cursor: grab;
+    scroll-behavior: smooth;
+    overscroll-behavior-x: contain;
+    -webkit-overflow-scrolling: touch;
+    user-select: none;
+}
+
+.product-slider.is-dragging {
+    cursor: grabbing;
+    scroll-behavior: auto;
+}
+
+.product-slider::-webkit-scrollbar {
+    display: none;
+}
+
+.image-container {
+    display: flex;
+    width: max-content;
+}
+
+.image {
+    position: relative;
+    flex: 0 0 480px;
+    width: 480px;
+    height: 640px;
+    overflow: hidden;
+}
+
+.image img {
+    position: absolute;
+    inset: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center center;
+    pointer-events: none;
+    transition: opacity 0.35s ease, transform 0.35s ease;
+}
+
+.image--focus-top img {
+    object-position: center top;
+}
+
+.image .hover {
+    opacity: 0;
+}
+
+.image:hover .default {
+    opacity: 0;
+}
+
+.image:hover .hover {
+    opacity: 1;
+    transform: scale(1.03);
+}
+
+.image--static:hover .default {
+    opacity: 1;
+    transform: scale(1.03);
+}
+
+.interior-gallery {
+    position: relative;
+    margin-top: 140px;
+    padding-bottom: 70px;
+    font-family: 'Helvetica', Arial, sans-serif;
+}
+
+.interior-gallery__block {
+    position: relative;
+    z-index: 10;
+}
+
+.interior-gallery__block--spb {
+    width: 1380px;
+    margin-left: 165px;
+}
+
+.interior-gallery__block--moscow {
+    width: 1380px;
+    margin-top: -70px;
+    margin-left: 375px;
+}
+
+.image8,
+.image9 {
+    display: block;
+    width: 1380px;
+    height: 1096px;
+    object-fit: cover;
+}
+
+.interior-gallery__text {
+    position: absolute;
+    z-index: 20;
+    margin: 0;
+    font-family: 'Helvetica', Arial, sans-serif;
+    font-size: 20px;
+    line-height: 1.2;
+    color: black;
+}
+
+.interior-gallery__text--spb {
+    top: 840px;
+    left: 812px;
+    width: 393px;
+}
+
+.interior-gallery__text--moscow {
+    top: 160px;
+    left: 220px;
+    width: 333px;
+    text-align: right;
+}
+
+.image--model {
+    cursor: pointer;
+}
+
+body.model-open {
+    overflow: hidden;
+}
+
+body.model-open .page {
+    filter: blur(12px);
+    transition: filter 0.35s ease;
+}
+
+.model-overlay {
+    position: fixed;
+    inset: 0;
+    z-index: 10000;
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    opacity: 0;
+    visibility: hidden;
+    pointer-events: none;
+    background: rgba(255, 255, 255, 0.08);
+    transition: opacity 0.35s ease, visibility 0.35s ease;
+}
+
+.model-overlay.is-open {
+    opacity: 1;
+    visibility: visible;
+    pointer-events: auto;
+}
+
+.model-overlay__viewer {
+    width: min(80vw, 960px);
+    height: min(80vh, 760px);
+    background: transparent;
+    outline: none;
+}
+
+@media (max-width: 768px) {
+    .model-overlay__viewer {
+        width: 92vw;
+        height: 72vh;
+    }
+}
+
+/* Media Queries for responsive design */
+@media (max-width: 768px) {
+    .hero-video {
+        height: 100vh;
+    }
+}

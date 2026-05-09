@@ -1,0 +1,101 @@
+<!DOCTYPE html>
+<html lang="ru">
+	<head>
+		<meta charset="UTF-8">
+		<meta name="viewport" content="width=device-width, initial-scale=1.0">
+		<title>HISTORY</title>
+		<link rel="stylesheet" href="css/style2.css">
+		<link rel="stylesheet" href="css/header-footer.css">
+</head>
+	<body>
+		<div class="page">
+			<div class="header">
+				<div class="header__section">
+					<div class="header__item headerButton"><a href="history.html">история</a></div>
+					<div class="header__item headerButton"><a href="reg.html">профиль</a></div>
+					<div class="header__item header__logo">
+						<a href="index.html"><img src="image/logo.png" alt="Логотип" class="logo"></a>
+					</div>
+					<div class="header__item headerButton">
+						<form action="search_results.html" method="get">
+							<input type="text" name="query" placeholder="поиск" class="search-input">
+						</form>
+					</div>
+					<div class="header__item headerButton"><a href="cart.html">корзина</a></div>
+				</div>
+			</div>
+			<h1 class="heading-container">
+				<span class="heading">история</span>
+			</h1>
+
+			<div class="custom-image-container">
+				<img src="image/image10.png" alt="Image" class="custom-image">
+			</div>
+
+			<div class="container">
+				<details class="detail-item">
+					<summary>01︱прошлое</summary>
+					<div class="history-panel"><p>
+					Бренд зародился в далеком 2019 году из маленькой идеи<br>свитера, который постепенно все больше и больше<br>привлекал публику. Маленькая идея поспособствовала<br>созданию бренда мирового уровня.<br>Но самое важное это то, что маленькая идея смогла<br>зародить большую мечту и цель всей жизни.
+					</p></div>
+				</details>
+
+				<details class="detail-item">
+					<summary>02︱настоящее</summary>
+					<div class="history-panel"><p>В настоящее время бренд не перестает развиваться,<br>как в качестве, так и в уникальности своих товаров.</p></div>
+				</details>
+
+				<details class="detail-item">
+					<summary>03︱будущее</summary>
+					<div class="history-panel"><p>
+					О будущем тяжело загадывать, но в планах открытие<br>магазинов в крупнейших городах земли и коллаборации<br>с многими мировыми брендами. Следите, ждите, любите.
+					</p></div>
+				</details>
+			</div>
+
+			<div class="footer">
+				<div class="footer__section">
+					<div class="footer__item"><a href="contact.html">контакты</a></div>
+					<div class="footer__item"><a href="news.html">новости</a></div>
+					<div class="footer__item"><p></p></div>
+					<div class="footer__item"><p></p></div>
+					<div class="footer__item"><p>&copy; 2024 BYNIKITADENISOV︱RIGHTS RESERVED</p></div>
+				</div>
+			</div>
+</div>
+			<script>
+				document.querySelectorAll('.detail-item').forEach((item) => {
+					const summary = item.querySelector('summary');
+					const panel = item.querySelector('.history-panel');
+
+					if (!summary || !panel) return;
+
+					summary.addEventListener('click', (event) => {
+						event.preventDefault();
+
+						if (item.classList.contains('is-open')) {
+							panel.style.maxHeight = panel.scrollHeight + 'px';
+							requestAnimationFrame(() => {
+								panel.style.maxHeight = '0px';
+								item.classList.remove('is-open');
+							});
+
+							panel.addEventListener('transitionend', function closePanel() {
+								if (!item.classList.contains('is-open')) {
+									item.removeAttribute('open');
+								}
+								panel.removeEventListener('transitionend', closePanel);
+							});
+						} else {
+							item.setAttribute('open', '');
+							requestAnimationFrame(() => {
+								item.classList.add('is-open');
+								panel.style.maxHeight = panel.scrollHeight + 'px';
+							});
+						}
+					});
+				});
+			</script>
+
+	</body>
+</html>
