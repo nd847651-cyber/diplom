@@ -2,7 +2,6 @@
 
 /* TABLETS (Планшеты) */
 @media (max-width: 1024px) {
-    /* Базовая оптимизация перенесена СЮДА, чтобы не ломать десктоп */
     img, video {
         max-width: 100%;
         height: auto;
@@ -68,7 +67,7 @@
         overflow-x: hidden !important;
     }
 
-    /* 1. ИСПРАВЛЕНИЯ ХЕДЕРА: Выравнивание и шрифты */
+    /* ИСПРАВЛЕНИЯ ХЕДЕРА */
     .header {
         height: 60px !important;
         width: 100% !important;
@@ -125,11 +124,35 @@
         margin: 0 auto !important;
     }
 
-    /* Видео на главной */
-    video, .hero-video {
+    /* =========================================
+       ВИДЕО: ПОВОРОТ НА 90 ГРАДУСОВ (1920x1080 -> 1080x1920)
+       ========================================= */
+    .hero-video {
         width: 100vw !important;
-        height: auto !important;
-        max-height: 50vh !important;
+        height: 100svh !important; /* Контейнер на весь экран мобильного */
+        min-height: 100svh !important;
+        max-height: none !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        overflow: hidden !important;
+        position: relative !important;
+        display: block !important;
+    }
+
+    .hero-video__media, .hero-video video {
+        /* Меняем местами ширину и высоту для поворота */
+        width: 100svh !important; /* Физическая ширина становится визуальной высотой */
+        height: 100vw !important; /* Физическая высота становится визуальной шириной */
+        min-width: 100svh !important;
+        min-height: 100vw !important;
+        max-width: none !important;
+        max-height: none !important;
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
+        /* Центрируем и поворачиваем на 90 градусов */
+        transform: translate(-50%, -50%) rotate(90deg) !important;
+        transform-origin: center center !important;
         object-fit: cover !important;
         margin: 0 !important;
         padding: 0 !important;
@@ -231,7 +254,7 @@
         color: #000 !important;
     }
 
-    /* 2. ИСПРАВЛЕНИЯ ФУТЕРА: Компактный вид */
+    /* ФУТЕР */
     .footer {
         padding: 20px 10px 25px !important;
         height: auto !important;
@@ -256,7 +279,6 @@
         justify-content: center !important;
     }
 
-    /* Скрываем пустые параграфы-заглушки */
     .footer__item:nth-child(3),
     .footer__item:nth-child(4) {
         display: none !important;
