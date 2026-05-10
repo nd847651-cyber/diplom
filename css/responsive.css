@@ -65,7 +65,7 @@
     /* Используем селектор по картинке, чтобы не применять несуществующий псевдокласс :contains */
     .main:has(img[src*="image14"]) {
         height: calc(100vh - 60px) !important; /* Высота экрана минус хедер */
-        padding-top: 800px !important;
+        padding-top: -50px !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: center !important;
