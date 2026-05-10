@@ -27,12 +27,47 @@
     .page { width: 100% !important; max-width: 100% !important; margin: 0 !important; padding: 0 !important; }
 
     /* ХЕДЕР */
-    .header { height: 60px !important; padding: 0 5px !important; display: flex !important; align-items: center !important; }
-    .header__section { display: flex !important; justify-content: space-between !important; width: 100% !important; }
-    .header__item a, .search-input { font-size: 12px !important; white-space: nowrap !important; }
-    .search-input { width: 55px !important; text-transform: lowercase !important; text-align: center !important; }
-    .logo { max-height: 28px !important; width: auto !important; }
+    .header { 
+        height: 60px !important; 
+        padding: 0 5px !important; 
+        display: flex !important; 
+        align-items: center !important; 
+    }
 
+    .header__section { 
+        display: grid !important; 
+        /* Создаем 5 абсолютно равных колонок по 20% ширины каждая */
+        grid-template-columns: 1fr 1fr 1fr 1fr 1fr !important; 
+        width: 100% !important; 
+        align-items: center !important;
+    }
+
+    .header__item, .header__logo {
+        display: flex !important;
+        justify-content: center !important; /* Центрируем контент внутри каждой колонки */
+        align-items: center !important;
+        padding: 0 !important;
+    }
+
+    .header__item a, .search-input { 
+        font-size: 12px !important; 
+        white-space: nowrap !important; 
+    }
+
+    .search-input { 
+        width: 100% !important; 
+        max-width: 75px !important; 
+        text-transform: lowercase !important; 
+        text-align: center !important; 
+        background: transparent !important;
+        border: none !important;
+    }
+
+    .logo { 
+        max-height: 28px !important; 
+        width: auto !important; 
+        display: block !important;
+    }
     /* ВИДЕО (ПОВОРОТ) */
     .hero-video {
         width: 100vw !important;
