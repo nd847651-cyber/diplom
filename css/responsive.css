@@ -65,7 +65,7 @@
     /* Используем селектор по картинке, чтобы не применять несуществующий псевдокласс :contains */
     .main:has(img[src*="image14"]) {
         height: calc(100vh - 60px) !important; /* Высота экрана минус хедер */
-        padding-top: 0px !important;
+        padding-top: 80px !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: center !important;
@@ -102,4 +102,42 @@
 /* ФИКС КОРЗИНЫ */
 @media (max-width: 768px) {
     .main__header, .main__button { position: relative !important; top: auto !important; right: auto !important; text-align: center !important; display: block !important; margin: 10px auto !important; }
+}
+
+/* ЦЕНТРИРОВАНИЕ СТРАНИЦЫ НОВОСТИ В МОБИЛЬНОЙ ВЕРСИИ */
+@media (max-width: 768px) {
+    /* Находим контент страницы новости по селектору */
+    .main:has(h1:contains("новости")),
+    .main:has(img[src*="image13"]) {
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+        text-align: center !important;
+        padding-top: 100px !important; /* Отступ от хедера */
+    }
+
+    .main:has(img[src*="image13"]) .main__header {
+        margin-bottom: 20px !important;
+        padding-left: 0 !important;
+    }
+
+    .main:has(img[src*="image13"]) .main__text {
+        padding-left: 0 !important;
+        display: flex !important;
+        flex-direction: column !important;
+        align-items: center !important;
+    }
+
+    .main:has(img[src*="image13"]) .main__links {
+        display: flex !important;
+        justify-content: center !important;
+        gap: 20px !important;
+        padding-left: 0 !important;
+        margin-top: 15px !important;
+    }
+    
+    .main:has(img[src*="image13"]) .main__image {
+        right: 0 !important;
+        margin-bottom: 20px !important;
+    }
 }
