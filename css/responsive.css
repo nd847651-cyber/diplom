@@ -34,30 +34,53 @@
     .logo { max-height: 28px !important; width: auto !important; }
 
     /* ВИДЕО (ПОВОРОТ) */
-    .hero-video { width: 100vw !important; height: 100svh !important; position: relative !important; }
+    .hero-video {
+        width: 100vw !important;
+        height: 100svh !important;
+        min-height: 100svh !important;
+        position: relative !important;
+        overflow: hidden !important;
+        margin: 0 !important;
+        padding: 0 !important;
+        display: block !important;
+    }
     .hero-video__media, .hero-video video {
-        width: 100svh !important; height: 100vw !important;
-        position: absolute !important; top: 50% !important; left: 50% !important;
+        width: 100svh !important;
+        height: 100vw !important;
+        min-width: 100svh !important;
+        min-height: 100vw !important;
+        max-width: none !important; /* КРИТИЧЕСКИ ВАЖНО ДЛЯ ОТМЕНЫ ОГРАНИЧЕНИЙ */
+        max-height: none !important; /* КРИТИЧЕСКИ ВАЖНО ДЛЯ ОТМЕНЫ ОГРАНИЧЕНИЙ */
+        position: absolute !important;
+        top: 50% !important;
+        left: 50% !important;
         transform: translate(-50%, -50%) rotate(90deg) !important;
+        transform-origin: center center !important;
         object-fit: cover !important;
+        margin: 0 !important;
+        padding: 0 !important;
     }
 
     /* КОНТАКТЫ (БЕЗ СКРОЛЛА) */
-    body:has(title:contains("CONTACTS")), .main:has(h1:contains("контакты")) {
-        height: 100vh !important; overflow: hidden !important;
-    }
-    .main:has(h1:contains("контакты")) {
-        padding-top: 100px !important;
+    /* Используем селектор по картинке, чтобы не применять несуществующий псевдокласс :contains */
+    .main:has(img[src*="image14"]) {
+        height: calc(100vh - 60px) !important; /* Высота экрана минус хедер */
+        padding-top: 80px !important;
         display: flex !important;
         flex-direction: column !important;
         justify-content: center !important;
         align-items: center !important;
         text-align: center !important;
+        overflow: hidden !important;
     }
-    .main:has(h1:contains("контакты")) .main__image img {
-        max-height: 35vh !important; width: auto !important;
+    .main:has(img[src*="image14"]) .main__image img {
+        max-height: 35vh !important;
+        width: auto !important;
     }
-    .main:has(h1:contains("контакты")) .main__text { padding: 0 !important; margin-top: 20px !important; }
+    .main:has(img[src*="image14"]) .main__text {
+        padding: 0 !important;
+        margin-top: 20px !important;
+    }
 
     /* ГАЛЕРЕЯ ИНТЕРЬЕРОВ */
     .interior-gallery { margin-top: 20px !important; display: flex !important; flex-direction: column !important; gap: 40px !important; padding: 0 20px !important; }
@@ -67,10 +90,10 @@
 
     /* СЛАЙДЕР */
     .product-slider { display: flex !important; overflow-x: auto !important; padding: 12px 20px !important; }
-    .image, .product-card { flex: 0 0 45vw !important; aspect-ratio: 0.68 / 1 !important; }
+    .image, .product-card { flex: 0 0 45vw !important; aspect-ratio: 0.68 / 1 !important; width: 45vw !important; height: auto !important; }
 
     /* ФУТЕР */
-    .footer { height: auto !important; padding: 20px 10px !important; }
+    .footer { height: auto !important; padding: 20px 10px !important; position: relative !important; }
     .footer__section { display: flex !important; flex-wrap: wrap !important; justify-content: center !important; gap: 10px 30px !important; }
     .footer__item:nth-child(3), .footer__item:nth-child(4) { display: none !important; }
     .footer__item:last-child { width: 100% !important; font-size: 9px !important; text-align: center !important; }
