@@ -97,7 +97,6 @@
     }
 
     /* КОНТАКТЫ (БЕЗ СКРОЛЛА) */
-    /* Используем селектор по картинке, чтобы не применять несуществующий псевдокласс :contains */
     .main:has(img[src*="image14"]) {
         height: calc(100vh - 60px) !important; /* Высота экрана минус хедер */
         padding-top: 80px !important;
@@ -118,7 +117,8 @@
     }
 
     /* ГАЛЕРЕЯ ИНТЕРЬЕРОВ */
-    .interior-gallery { margin-top: 20px !important; display: flex !important; flex-direction: column !important; gap: 40px !important; padding: 0 20px !important; }
+    /* ГАЛЕРЕЯ ИНТЕРЬЕРОВ */
+    .interior-gallery { margin-top: 20px !important; margin-bottom: 20px !important; display: flex !important; flex-direction: column !important; gap: 40px !important; padding: 0 20px !important; }
     .interior-gallery__block { width: 100% !important; margin: 0 !important; display: flex !important; flex-direction: column !important; }
     .interior-gallery__text { position: relative !important; inset: auto !important; width: 100% !important; text-align: left !important; font-size: 12px !important; margin-top: 10px !important; }
     .image8, .image9 { width: 100% !important; height: auto !important; }
@@ -134,15 +134,115 @@
     .footer__item:last-child { width: 100% !important; font-size: 9px !important; text-align: center !important; }
 }
 
-/* ФИКС КОРЗИНЫ */
+/* =========================================
+   ФИКС СТРАНИЦЫ КОРЗИНА (cart.html)
+   ========================================= */
 @media (max-width: 768px) {
-    .main__header, .main__button { position: relative !important; top: auto !important; right: auto !important; text-align: center !important; display: block !important; margin: 10px auto !important; }
+    /* Делаем всю центральную часть flex-контейнером */
+    .page:has(.popup-trigger) .main,
+    body:has(.popup-trigger) .main {
+        display: flex !important;
+        flex-direction: column !important;
+        padding: 80px 0 30px !important; 
+        min-height: calc(100vh - 60px) !important;
+        overflow: hidden !important;
+    }
+
+    /* 1. ЗАГОЛОВОК (Наверх) */
+    .page:has(.popup-trigger) .main__header,
+    body:has(.popup-trigger) .main__header {
+        order: 1 !important; 
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
+        text-align: center !important;
+        margin: 0 0 20px 0 !important;
+        width: 100% !important;
+    }
+
+    /* 2. СЛАЙДЕР (Под заголовок) */
+    .page:has(.popup-trigger) .container,
+    body:has(.popup-trigger) .container {
+        order: 2 !important; 
+        position: relative !important;
+        width: 100% !important;
+        margin: 0 !important;
+        display: block !important;
+    }
+
+    /* 3. КНОПКА (В самый низ) */
+    .page:has(.popup-trigger) .main__button,
+    body:has(.popup-trigger) .main__button {
+        order: 3 !important; 
+        position: relative !important;
+        top: auto !important;
+        right: auto !important;
+        margin: auto auto 0 auto !important; 
+        text-align: center !important;
+        width: 100% !important;
+        padding-top: 40px !important;
+    }
+
+    /* --- ПОЧИНКА СЛАЙДЕРА --- */
+    .switch {
+        display: flex !important;
+        flex-direction: column !important; /* Превращаем в колонку, чтобы менять порядок */
+        align-items: stretch !important;
+        margin-top: 0 !important;
+        width: 100% !important;
+    }
+
+    /* Обертка картинок (Встает ПЕРЕД точками) */
+    .wrapper {
+        order: 1 !important; /* Ставим картинки на первое место */
+        display: flex !important;
+        width: 200% !important; /* 200% от контейнера, а не vw (чтобы не резалось) */
+        height: auto !important;
+        transition: transform 0.4s ease !important;
+    }
+
+    /* Контейнер каждой отдельной картинки */
+    .wrapper .box {
+        width: 50% !important; /* Половина от 200% = ровно ширина экрана */
+        margin: 0 !important; /* Убиваем десктопный отступ */
+        padding: 0 20px !important; /* Отступы по бокам, чтобы картинка дышала */
+        box-sizing: border-box !important;
+        display: flex !important;
+        justify-content: center !important;
+        align-items: center !important;
+    }
+
+    /* Сама картинка товара (теперь не обрезается!) */
+    .wrapper .box img {
+        width: 100% !important; 
+        max-width: 100% !important;
+        height: auto !important;
+        object-fit: contain !important;
+    }
+
+    /* Точки переключения (Встают ПОД картинкой и СЛЕВА) */
+    .controls {
+        order: 2 !important; /* Ставим точки на второе место (под картинки) */
+        position: relative !important;
+        margin: 20px 0 0 20px !important; /* Отступ 20px сверху и 20px слева */
+        display: flex !important;
+        justify-content: flex-start !important; /* Прижимаем точки к левому краю */
+        width: 100% !important;
+        box-sizing: border-box !important;
+    }
+
+    /* Идеальное переключение без вылетов за экран */
+    .switch input:nth-child(1):checked ~ .wrapper {
+        transform: translateX(0) !important;
+    }
+    .switch input:nth-child(2):checked ~ .wrapper {
+        transform: translateX(-50%) !important; /* Сдвигаем ровно на 1 слайд */
+    }
 }
 
 /* ЦЕНТРИРОВАНИЕ СТРАНИЦЫ НОВОСТИ В МОБИЛЬНОЙ ВЕРСИИ */
 @media (max-width: 768px) {
-    /* Находим контент страницы новости по селектору */
-    .main:has(h1:contains("новости")),
+    /* Находим контент страницы новости по валидному селектору */
     .main:has(img[src*="image13"]) {
         display: flex !important;
         flex-direction: column !important;
@@ -174,5 +274,84 @@
     .main:has(img[src*="image13"]) .main__image {
         right: 0 !important;
         margin-bottom: 20px !important;
+    }
+}
+
+/* =========================================
+   ФИКС СТРАНИЦЫ ИСТОРИЯ (history.html)
+   ========================================= */
+@media (max-width: 768px) {
+    /* Убираем скрытие скролла, чтобы аккордеон можно было листать */
+    body:has(.heading-container),
+    .page:has(.heading-container) {
+        height: auto !important;
+        min-height: 100vh !important;
+        overflow: visible !important;
+        overflow-y: auto !important;
+    }
+
+    /* ИСПОЛЬЗУЕМ CSS GRID ДЛЯ ИДЕАЛЬНОЙ СЕТКИ */
+    .page:has(.heading-container) {
+        display: grid !important;
+        /* Увеличили правую колонку до 85px, чтобы вместить картинку и отступ от края */
+        grid-template-columns: 1fr 85px !important; 
+        grid-template-rows: auto auto 1fr auto !important;
+        grid-template-areas:
+            "header header"
+            "heading heading"
+            "text image"
+            "footer footer" !important;
+    }
+
+    /* Распределяем элементы по созданной сетке */
+    .page:has(.heading-container) .header { grid-area: header !important; }
+    .page:has(.heading-container) .heading-container { grid-area: heading !important; margin: 0 !important; }
+    .page:has(.heading-container) .container { grid-area: text !important; }
+    .page:has(.heading-container) .custom-image-container { grid-area: image !important; }
+    .page:has(.heading-container) .footer { grid-area: footer !important; }
+
+    /* Выравниваем заголовок "история" */
+    .heading {
+        margin: 80px 0 20px 20px !important; 
+        font-size: 36px !important;
+        display: block !important;
+    }
+
+    /* 1. ИЗОБРАЖЕНИЕ (Встает в правую колонку) */
+    .custom-image-container {
+        width: 100% !important;
+        height: auto !important;
+        margin: 0 !important; 
+        padding: 0 25px 0 0 !important; /* Отодвигаем картинку от правого края на 25px */
+        display: flex !important;
+        justify-content: flex-end !important; 
+        align-items: flex-start !important; 
+    }
+
+    .custom-image {
+        width: 100% !important;
+        height: auto !important;
+        object-fit: contain !important;
+    }
+
+    /* 2. ТЕКСТ (Встает в левую колонку) */
+    .container {
+        position: relative !important;
+        width: 100% !important;
+        max-width: 250px !important; /* ОГРАНИЧЕНИЕ ШИРИНЫ ТЕКСТА (чтобы он не растягивался на всю ширину) */
+        margin: 0 15px 40px 20px !important; 
+        top: auto !important;
+        left: auto !important;
+        transform: none !important;
+    }
+    
+    /* Стили для самого аккордеона на мобильных */
+    details summary {
+        font-size: 18px !important;
+        padding: 10px 5px !important;
+    }
+    
+    .history-panel p {
+        font-size: 16px !important;
     }
 }
